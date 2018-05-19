@@ -1,0 +1,64 @@
+E=138, T=128, O=102, A=96, R=91, I=87, N=86, S=78, H=63, U=58, D=54, L=49, C=41, F=31, G=29, W=28, P=28, M=27, Y=21, B=15, K=11, V=10, X=9, Q=9, J=8, Z=7
+────────────────────
+THIS IS THE FIRST WORD FOR PURPOSES OF COUNTING WORDS AND PARAGRAPHS IN THIS TEXT THE FLAVOR TEXT AND APPENDIX ARE EXCLUDED
+HYPHENATED WORDS EQUATE TO JUST ONE WORD PUNCTUATION MARKS DO NOT COUNT AS LETTERS
+A SIMON SENDS PUZZLE IS EQUIPPED WITH COLORIZED LIGHTS WHICH FLASH UNIQUE LETTERS IN MORSE CODE SIMULTANEOUSLY AND A DIAL FOR ADJUSTING THE FREQUENCY OF
+FLASHING
+OWING TO THEIR PROXIMITY THE LIGHTS RED GREEN AND BLUE MIX BY WAY OF ADDITIVE COLOR MIXING WORK OUT THE INDIVIDUAL COLORS
+CONVERT EACH RECOGNIZED LETTER INTO A NUMBER USING ITS ALPHABETIC POSITION CALL YOUR THUSLY ACQUIRED NUMBERS R G AND B DERIVE NEW LETTERS AS FOLLOWS
+COUNT R LETTERS FROM THE START OF THE GTH WORD FROM THE START OF THE BTH PARAGRAPH IN THIS MANUAL AND MAKE IT YOUR NEW RED LETTER
+COUNT G LETTERS FROM THE START OF THE BTH WORD FROM THE START OF THE RTH PARAGRAPH IN THIS MANUAL AND MAKE IT YOUR NEW GREEN LETTER
+COUNT B LETTERS FROM THE START OF THE RTH WORD FROM THE START OF THE GTH PARAGRAPH IN THIS MANUAL AND MAKE IT YOUR NEW BLUE LETTER
+REALIZE A NEW COLOR SEQUENCE BY JUXTAPOSING AGAIN USING KNOWN ADDITIVE COLOR MIXING ONE COPY OF EACH NEW LETTERS MORSE CODE
+ACKNOWLEDGE A DOT AND A DASH IN MORSE CODE HAVE SIZES OF ONE AND THREE UNITS RESPECTIVELY GAPS BETWEEN THEM ALSO HAVE A SIZE OF JUST ONE UNIT
+INPUT YOUR ACQUIRED COLOR SEQUENCE USING EACH QUALIFYING COLOR BUTTON
+A MISTAKE IS REJECTED WITH A STRIKE ON SUCH AN OCCASION ADJUST AND FINISH YOUR ANSWER LOOK AT THE DISPLAY TO JUDGE YOUR INPUT THUS FAR
+JUMP BACK TO THE FIRST WORD IF WHILE COUNTING YOU ADVANCE BEYOND THE LAST WORD WHICH IS THIS
+13 paragraphs. Unused letters = 0
+6541
+  WGGKGGGKGGG = 0.14%
+  WRRKRRRKRRR = 0.13%
+  WBBKBBBKBBB = 0.13%
+  WCCKCCCKCCC = 0.11%
+  WMMKMMMKMMM = 0.11%
+          WGY = 0.11%
+        WKRRR = 0.11%
+  WYYKYYYKYYY = 0.11%
+        WKGGG = 0.11%
+          WBC = 0.1%
+---
+E =   9.99% ████████████████████  E =   9.95% ████████████████████  E =   9.99% ████████████████████
+T =   9.66% ███████████████████   T =   9.64% ███████████████████   T =   9.67% ███████████████████
+O =   8.15% ████████████████      O =   8.12% ████████████████      O =   8.11% ████████████████
+A =   7.50% ███████████████       A =   7.49% ███████████████       A =   7.48% ███████████████
+R =   7.08% ██████████████        R =   7.04% ██████████████        R =   7.03% ██████████████
+I =   6.61% █████████████         I =   6.61% █████████████         I =   6.61% █████████████
+N =   6.49% █████████████         N =   6.50% █████████████         N =   6.51% █████████████
+S =   6.35% █████████████         S =   6.37% █████████████         S =   6.37% █████████████
+H =   4.75% ██████████            H =   4.72% █████████             H =   4.75% ██████████
+U =   4.49% █████████             U =   4.52% █████████             U =   4.48% █████████
+D =   4.11% ████████              D =   4.15% ████████              D =   4.09% ████████
+L =   3.46% ███████               L =   3.48% ███████               L =   3.49% ███████
+C =   3.35% ███████               C =   3.33% ███████               C =   3.36% ███████
+F =   2.63% █████                 F =   2.68% █████                 F =   2.64% █████
+P =   2.52% █████                 P =   2.51% █████                 P =   2.53% █████
+W =   2.30% █████                 W =   2.33% █████                 W =   2.32% █████
+M =   2.05% ████                  M =   2.04% ████                  M =   2.04% ████
+G =   1.95% ████                  G =   1.94% ████                  G =   1.94% ████
+Y =   1.44% ███                   Y =   1.43% ███                   Y =   1.46% ███
+B =   1.07% ██                    B =   1.04% ██                    B =   1.04% ██
+V =   0.75% █                     V =   0.76% ██                    V =   0.75% █
+J =   0.71% █                     K =   0.72% █                     K =   0.71% █
+K =   0.70% █                     J =   0.71% █                     J =   0.70% █
+Q =   0.64% █                     Z =   0.65% █                     Z =   0.66% █
+Z =   0.63% █                     Q =   0.65% █                     Q =   0.65% █
+X =   0.63% █                     X =   0.62% █                     X =   0.61% █
+---
+ 1 =   0.05%
+ 3 =   1.75% ██
+ 5 =   8.58% █████████
+ 7 =  22.51% ███████████████████████
+ 9 =  21.83% ██████████████████████
+11 =  37.19% █████████████████████████████████████
+13 =   8.08% ████████
+Done.

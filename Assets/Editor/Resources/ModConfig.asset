@@ -13,9 +13,17 @@ MonoBehaviour:
   m_EditorClassIdentifier:
   id: SimonSends
   title: Simon Sends
-  description: "<description>\n\nModule created by Timwi.\n\n[url=http://ktane.timwi.de/PDF/Simon%20Sends.pdf]Manual
-    PDF[/url]\n[url=http://ktane.timwi.de/HTML/Simon%20Sends.html]Manual
-    HTML[/url]"
+  description: 'The preview image conspicuously illustrates one of the three pertinent
+    aspects of the nature of this module. The second sentence of this Steam workshop
+    item description alludes indirectly to another one. The last one is Morse code.
+
+
+    Module created by Timwi.
+
+
+    [url=http://ktane.timwi.de/PDF/Simon%20Sends.pdf]Manual PDF[/url]
+
+    [url=http://ktane.timwi.de/HTML/Simon%20Sends.html]Manual HTML[/url]'
   version: 1.0
   outputFolder: build
   previewImage: {fileID: 2800000, guid: bd5c1f4881f57d54481b44e4c8a7779a, type: 3}
