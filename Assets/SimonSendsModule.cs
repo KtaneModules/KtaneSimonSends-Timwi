@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using SimonSends;
 using UnityEngine;
 using Rnd = UnityEngine.Random;
@@ -223,5 +224,15 @@ public class SimonSendsModule : MonoBehaviour
 
             return false;
         };
+    }
+
+#pragma warning disable 0414
+    private readonly string TwitchHelpMessage = "Press the buttons with “!{0} press 163724”. They are numbered 1–8 in reading order.";
+#pragma warning restore 0414
+
+    private IEnumerable<KMSelectable> ProcessTwitchCommand(string command)
+    {
+        var match = Regex.Match(command, @"^\s*(?:press |submit |send |transmit |tx |)([1-8 ]+)\s*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+        return match.Success ? match.Groups[1].Value.Where(ch => ch != ' ').Select(ch => Buttons[ch - '1']) : null;
     }
 }
