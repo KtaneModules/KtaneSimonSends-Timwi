@@ -227,12 +227,35 @@ public class SimonSendsModule : MonoBehaviour
     }
 
 #pragma warning disable 0414
-    private readonly string TwitchHelpMessage = "Press the buttons with “!{0} press 163724”. They are numbered 1–8 in reading order.";
+    private readonly string TwitchHelpMessage = "Press the buttons with “!{0} press 163724”. They are numbered 1–8 in reading order. Use “!{0} speed .5” to set the speed (0–1 where 0 is fastest and 1 is slowest).";
 #pragma warning restore 0414
 
-    private IEnumerable<KMSelectable> ProcessTwitchCommand(string command)
+    private IEnumerator ProcessTwitchCommand(string command)
     {
         var match = Regex.Match(command, @"^\s*(?:press |submit |send |transmit |tx |)([1-8 ]+)\s*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-        return match.Success ? match.Groups[1].Value.Where(ch => ch != ' ').Select(ch => Buttons[ch - '1']) : null;
+        if (match.Success)
+        {
+            yield return null;
+            yield return match.Groups[1].Value.Where(ch => ch != ' ').Select(ch => Buttons[ch - '1']).ToArray();
+            yield break;
+        }
+
+        match = Regex.Match(command, @"^\s*(?:set ?)?(?:speed |rate |frequency )(\d*\.?\d+)\s*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+        if (match.Success)
+        {
+            double target;
+            if (!double.TryParse(match.Groups[1].Value, out target) || target < 0 || target > 1)
+            {
+                yield return "sendtochaterror The speed must be between 0 and 1 (for example, 0.1 or 0.75).";
+                yield break;
+            }
+            yield return null;
+            var started = Time.time;
+            Knob.OnInteract();
+            while (Math.Abs(_knobPosition - target) > .025 && Time.time - started < 2)
+                yield return null;
+            Knob.OnInteractEnded();
+            yield break;
+        }
     }
 }
