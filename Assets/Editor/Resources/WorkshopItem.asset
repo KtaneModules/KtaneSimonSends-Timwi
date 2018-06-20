@@ -13,4 +13,5 @@ MonoBehaviour:
   m_EditorClassIdentifier:
   WorkshopPublishedFileID: 1392394292
   Title: Simon Sends
-  Tags: []
+  Tags:
+  - Regular Module

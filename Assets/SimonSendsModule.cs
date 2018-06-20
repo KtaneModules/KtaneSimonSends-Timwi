@@ -209,6 +209,8 @@ public class SimonSendsModule : MonoBehaviour
             }
             else
             {
+                if (color > 0)
+                    Audio.PlaySoundAtTransform("Sound" + color, Buttons[btnIx].transform);
                 _acceptableAnswers = newAccAnswers;
                 _answerUnits[_answerSoFar.Count].material = AnswerUnitMaterials[color];
                 _answerUnits[_answerSoFar.Count].gameObject.SetActive(true);
@@ -217,6 +219,7 @@ public class SimonSendsModule : MonoBehaviour
                 {
                     Debug.LogFormat(@"[Simon Sends #{0}] Module solved.", _moduleId);
                     Module.HandlePass();
+                    Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.CorrectChime, transform);
                     _answerSoFar = null;
                     _acceptableAnswers = null;
                 }
@@ -236,7 +239,11 @@ public class SimonSendsModule : MonoBehaviour
         if (match.Success)
         {
             yield return null;
-            yield return match.Groups[1].Value.Where(ch => ch != ' ').Select(ch => Buttons[ch - '1']).ToArray();
+            foreach (var btn in match.Groups[1].Value.Where(ch => ch != ' ').Select(ch => Buttons[ch - '1']))
+            {
+                btn.OnInteract();
+                yield return new WaitForSeconds(.4f);
+            }
             yield break;
         }
 
