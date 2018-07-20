@@ -105,6 +105,10 @@ public class SimonSendsModule : MonoBehaviour
 
         Knob.OnInteract = knobStart;
         Knob.OnInteractEnded = knobEnd;
+
+        float scalar = transform.lossyScale.x;
+        foreach (Light light in Lights)
+            light.range *= scalar;
     }
 
     private bool knobStart()
