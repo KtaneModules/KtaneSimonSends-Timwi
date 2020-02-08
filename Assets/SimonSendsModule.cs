@@ -35,7 +35,6 @@ public class SimonSendsModule : MonoBehaviour
     private List<int[]> _acceptableAnswers;
     private List<int> _answerSoFar;
     private int _morseRPos, _morseGPos, _morseBPos;
-    private int[] _buttonColors;
     private MeshRenderer[] _answerUnits;
     private float _knobPosition = 1;
     private Coroutine _knobRotation = null;
@@ -58,13 +57,8 @@ public class SimonSendsModule : MonoBehaviour
         }
         AnswerUnitTemplate.SetActive(false);
 
-        _buttonColors = Enumerable.Range(0, 8).ToArray().Shuffle();
-        var materials = Buttons.Select(btn => btn.GetComponent<MeshRenderer>().material).ToArray();
         for (int i = 0; i < 8; i++)
-        {
-            Buttons[i].GetComponent<MeshRenderer>().material = materials[_buttonColors[i]];
-            Buttons[i].OnInteract = getPressHandler(i, _buttonColors[i]);
-        }
+            Buttons[i].OnInteract = getPressHandler(i);
 
         var available = Enumerable.Range(0, 26).ToList().Shuffle();
         var r = (char) (available[0] + 'A');
@@ -195,12 +189,12 @@ public class SimonSendsModule : MonoBehaviour
         return _manualText[paraIx][wordIx][letterIx];
     }
 
-    private KMSelectable.OnInteractHandler getPressHandler(int btnIx, int color)
+    private KMSelectable.OnInteractHandler getPressHandler(int color)
     {
         return delegate
         {
-            Buttons[btnIx].AddInteractionPunch(.3f);
-            Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Buttons[btnIx].transform);
+            Buttons[color].AddInteractionPunch(.3f);
+            Audio.PlayGameSoundAtTransform(KMSoundOverride.SoundEffect.ButtonPress, Buttons[color].transform);
             if (_answerSoFar == null)    // Module is solved.
                 return false;
 
@@ -214,7 +208,7 @@ public class SimonSendsModule : MonoBehaviour
             else
             {
                 if (color > 0)
-                    Audio.PlaySoundAtTransform("Sound" + color, Buttons[btnIx].transform);
+                    Audio.PlaySoundAtTransform("Sound" + color, Buttons[color].transform);
                 _acceptableAnswers = newAccAnswers;
                 _answerUnits[_answerSoFar.Count].material = AnswerUnitMaterials[color];
                 _answerUnits[_answerSoFar.Count].gameObject.SetActive(true);
@@ -234,16 +228,16 @@ public class SimonSendsModule : MonoBehaviour
     }
 
 #pragma warning disable 0414
-    private readonly string TwitchHelpMessage = "Press the buttons with “!{0} press 163724”. They are numbered 1–8 in reading order. Use “!{0} speed .5” to set the speed (0–1 where 0 is fastest and 1 is slowest).";
+    private readonly string TwitchHelpMessage = "!{0} press 163724 [1–8 in reading order] | !{0} press kbgcrmyw [k=black, b=blue etc.] | !{0} speed .5 [set the speed; 0–1 where 0 is fastest and 1 is slowest]";
 #pragma warning restore 0414
 
     private IEnumerator ProcessTwitchCommand(string command)
     {
-        var match = Regex.Match(command, @"^\s*(?:press |submit |send |transmit |tx |)([1-8 ]+)\s*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+        var match = Regex.Match(command, @"^\s*(?:press |submit |send |transmit |tx |)([kbgcrmyw1-8 ,;]+)\s*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
         if (match.Success)
         {
             yield return null;
-            foreach (var btn in match.Groups[1].Value.Where(ch => ch != ' ').Select(ch => Buttons[ch - '1']))
+            foreach (var btn in match.Groups[1].Value.Where(ch => "kbgcrmywKBGCRMYW12345678".Contains(ch)).Select(ch => Buttons["kbgcrmywKBGCRMYW12345678".IndexOf(ch) % 8]))
             {
                 btn.OnInteract();
                 yield return new WaitForSeconds(.4f);
