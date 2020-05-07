@@ -263,4 +263,13 @@ public class SimonSendsModule : MonoBehaviour
             yield break;
         }
     }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        while (_acceptableAnswers != null)
+        {
+            Buttons[_acceptableAnswers[0][_answerSoFar.Count]].OnInteract();
+            yield return new WaitForSeconds(.25f);
+        }
+    }
 }
