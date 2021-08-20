@@ -16,18 +16,22 @@ public class SimonSendsModule : MonoBehaviour
     public KMBombInfo Bomb;
     public KMBombModule Module;
     public KMAudio Audio;
+    public KMColorblindMode ColorblindMode;
     public MeshRenderer Diode;
     public Light[] Lights;
     public KMSelectable[] Buttons;
     public KMSelectable Knob;
     public GameObject AnswerUnitTemplate;
     public Material[] AnswerUnitMaterials;
+    public TextMesh ColorblindDiodeText;
+    public TextMesh[] ColorblindButtonText;
 
     private static readonly string[][] _manualText = /*MANUAL*/@"THIS IS THE FIRST WORD FOR PURPOSES OF COUNTING WORDS AND PARAGRAPHS IN THIS TEXT THE FLAVOR TEXT AND APPENDIX ARE EXCLUDED|HYPHENATED WORDS EQUATE TO JUST ONE WORD PUNCTUATION MARKS DO NOT COUNT AS LETTERS|A SIMON SENDS PUZZLE IS EQUIPPED WITH COLORIZED LIGHTS WHICH FLASH UNIQUE LETTERS IN MORSE CODE SIMULTANEOUSLY AND A DIAL FOR ADJUSTING THE FREQUENCY OF FLASHING|OWING TO THEIR PROXIMITY THE LIGHTS RED GREEN AND BLUE MIX BY WAY OF ADDITIVE COLOR MIXING WORK OUT THE INDIVIDUAL COLORS|CONVERT EACH RECOGNIZED LETTER INTO A NUMBER USING ITS ALPHABETIC POSITION CALL YOUR THUSLY ACQUIRED NUMBERS R G AND B DERIVE NEW LETTERS AS FOLLOWS|COUNT R LETTERS FROM THE START OF THE GTH WORD FROM THE START OF THE BTH PARAGRAPH IN THIS MANUAL AND MAKE IT YOUR NEW RED LETTER|COUNT G LETTERS FROM THE START OF THE BTH WORD FROM THE START OF THE RTH PARAGRAPH IN THIS MANUAL AND MAKE IT YOUR NEW GREEN LETTER|COUNT B LETTERS FROM THE START OF THE RTH WORD FROM THE START OF THE GTH PARAGRAPH IN THIS MANUAL AND MAKE IT YOUR NEW BLUE LETTER|REALIZE A NEW COLOR SEQUENCE BY JUXTAPOSING AGAIN USING KNOWN ADDITIVE COLOR MIXING ONE COPY OF EACH NEW LETTERS MORSE CODE|ACKNOWLEDGE A DOT AND A DASH IN MORSE CODE HAVE SIZES OF ONE AND THREE UNITS RESPECTIVELY GAPS BETWEEN THEM ALSO HAVE A SIZE OF JUST ONE UNIT|INPUT YOUR ACQUIRED COLOR SEQUENCE USING EACH QUALIFYING COLOR BUTTON|A MISTAKE IS REJECTED WITH A STRIKE ON SUCH AN OCCASION ADJUST AND FINISH YOUR ANSWER LOOK AT THE DISPLAY TO JUDGE YOUR INPUT THUS FAR|JUMP BACK TO THE FIRST WORD IF WHILE COUNTING YOU ADVANCE BEYOND THE LAST WORD WHICH IS THIS"/*!MANUAL*/
         .Split('|').Select(line => line.Split(' ')).ToArray();
 
     private static readonly string[] _morse = ".-|-...|-.-.|-..|.|..-.|--.|....|..|.---|-.-|.-..|--|-.|---|.--.|--.-|.-.|...|-|..-|...-|.--|-..-|-.--|--..".Split('|');
     private static readonly string _colorNames = "KBGCRMYW";
+    private static readonly string[] _colorblindTextNames = { "BLACK", "BLUE", "GREEN", "CYAN", "RED", "MAGENTA", "YELLOW", "WHITE" };
 
     private static int _moduleIdCounter = 1;
     private int _moduleId;
@@ -38,10 +42,13 @@ public class SimonSendsModule : MonoBehaviour
     private MeshRenderer[] _answerUnits;
     private float _knobPosition = 1;
     private Coroutine _knobRotation = null;
+    private bool _colorblindMode;
 
     void Start()
     {
         _moduleId = _moduleIdCounter++;
+        SetColorblindMode(ColorblindMode.ColorblindModeActive);
+        ColorblindDiodeText.text = "";
 
         _answerUnits = new MeshRenderer[13];
         for (int i = 0; i < 13; i++)
@@ -61,9 +68,9 @@ public class SimonSendsModule : MonoBehaviour
             Buttons[i].OnInteract = getPressHandler(i);
 
         var available = Enumerable.Range(0, 26).ToList().Shuffle();
-        var r = (char) (available[0] + 'A');
-        var g = (char) (available[1] + 'A');
-        var b = (char) (available[2] + 'A');
+        var r = (char)(available[0] + 'A');
+        var g = (char)(available[1] + 'A');
+        var b = (char)(available[2] + 'A');
 
         _morseR = getMorse(r) + "___";
         _morseRPos = Rnd.Range(0, _morseR.Length);
@@ -105,6 +112,15 @@ public class SimonSendsModule : MonoBehaviour
             light.range *= scalar;
     }
 
+    private void SetColorblindMode(bool mode)
+    {
+        _colorblindMode = mode;
+        if (!_colorblindMode)
+            ColorblindDiodeText.text = "";
+        for (int i = 0; i < ColorblindButtonText.Length; i++)
+            ColorblindButtonText[i].text = _colorblindMode ? _colorNames.Substring(i, 1) : "";
+    }
+
     private bool knobStart()
     {
         if (_knobRotation != null)
@@ -140,9 +156,18 @@ public class SimonSendsModule : MonoBehaviour
         // _answerSoFar is set to null when the module is solved.
         while (_answerSoFar != null)
         {
-            Diode.material.color = new Color(_morseR[_morseRPos] == '#' ? bright : dark, _morseG[_morseGPos] == '#' ? bright : dark, _morseB[_morseBPos] == '#' ? bright : dark);
+            bool red = _morseR[_morseRPos] == '#';
+            bool green = _morseG[_morseGPos] == '#';
+            bool blue = _morseB[_morseBPos] == '#';
+            var color = new Color(red ? bright : dark, green ? bright : dark, blue ? bright : dark);
+            Diode.material.color = color;
+            if (_colorblindMode)
+            {
+                ColorblindDiodeText.text = _colorblindTextNames[(red ? 4 : 0) + (green ? 2 : 0) + (blue ? 1 : 0)];
+                ColorblindDiodeText.color = color;
+            }
             foreach (var light in Lights)
-                light.color = new Color(_morseR[_morseRPos] == '#' ? 1 : 0, _morseG[_morseGPos] == '#' ? 1 : 0, _morseB[_morseBPos] == '#' ? 1 : 0);
+                light.color = new Color(red ? 1 : 0, green ? 1 : 0, blue ? 1 : 0);
             yield return new WaitForSeconds(_knobPosition);
             _morseRPos = (_morseRPos + 1) % _morseR.Length;
             _morseGPos = (_morseGPos + 1) % _morseG.Length;
@@ -260,6 +285,14 @@ public class SimonSendsModule : MonoBehaviour
             while (Math.Abs(_knobPosition - target) > .025 && Time.time - started < 2)
                 yield return null;
             Knob.OnInteractEnded();
+            yield break;
+        }
+
+        match = Regex.Match(command, @"^\s*(?:colorblind?)$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+        if (match.Success)
+        {
+            SetColorblindMode(!_colorblindMode);
+            yield return null;
             yield break;
         }
     }
