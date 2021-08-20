@@ -68,9 +68,9 @@ public class SimonSendsModule : MonoBehaviour
             Buttons[i].OnInteract = getPressHandler(i);
 
         var available = Enumerable.Range(0, 26).ToList().Shuffle();
-        var r = (char)(available[0] + 'A');
-        var g = (char)(available[1] + 'A');
-        var b = (char)(available[2] + 'A');
+        var r = (char) (available[0] + 'A');
+        var g = (char) (available[1] + 'A');
+        var b = (char) (available[2] + 'A');
 
         _morseR = getMorse(r) + "___";
         _morseRPos = Rnd.Range(0, _morseR.Length);
@@ -115,10 +115,9 @@ public class SimonSendsModule : MonoBehaviour
     private void SetColorblindMode(bool mode)
     {
         _colorblindMode = mode;
-        if (!_colorblindMode)
-            ColorblindDiodeText.text = "";
         for (int i = 0; i < ColorblindButtonText.Length; i++)
-            ColorblindButtonText[i].text = _colorblindMode ? _colorNames.Substring(i, 1) : "";
+            ColorblindButtonText[i].gameObject.SetActive(mode);
+        ColorblindDiodeText.gameObject.SetActive(mode);
     }
 
     private bool knobStart()
@@ -161,11 +160,8 @@ public class SimonSendsModule : MonoBehaviour
             bool blue = _morseB[_morseBPos] == '#';
             var color = new Color(red ? bright : dark, green ? bright : dark, blue ? bright : dark);
             Diode.material.color = color;
-            if (_colorblindMode)
-            {
-                ColorblindDiodeText.text = _colorblindTextNames[(red ? 4 : 0) + (green ? 2 : 0) + (blue ? 1 : 0)];
-                ColorblindDiodeText.color = color;
-            }
+            ColorblindDiodeText.gameObject.SetActive(_colorblindMode);
+            ColorblindDiodeText.text = _colorblindTextNames[(red ? 4 : 0) + (green ? 2 : 0) + (blue ? 1 : 0)];
             foreach (var light in Lights)
                 light.color = new Color(red ? 1 : 0, green ? 1 : 0, blue ? 1 : 0);
             yield return new WaitForSeconds(_knobPosition);
@@ -176,6 +172,7 @@ public class SimonSendsModule : MonoBehaviour
         Diode.material.color = new Color(dark, dark, dark);
         foreach (var light in Lights)
             light.gameObject.SetActive(false);
+        ColorblindDiodeText.gameObject.SetActive(false);
     }
 
     private static string getMorse(char letter)

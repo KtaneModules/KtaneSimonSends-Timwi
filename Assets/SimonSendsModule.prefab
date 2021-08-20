@@ -1425,13 +1425,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1182604508447276}
-  m_LocalRotation: {x: 0.6875694, y: 0.16507079, z: -0.16507079, w: 0.6875694}
-  m_LocalPosition: {x: 0.0217, y: 0.01502, z: 0.0614}
+  m_LocalRotation: {x: 0.69084924, y: 0.1507558, z: -0.1507558, w: 0.69084924}
+  m_LocalPosition: {x: 0.018656366, y: 0.01502, z: 0.062794775}
   m_LocalScale: {x: 0.005, y: 0.005, z: 0.005}
   m_Children: []
   m_Father: {fileID: 474250}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 90, y: 27, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -24.62}
 --- !u!4 &4832908010811576
 Transform:
   m_ObjectHideFlags: 1
@@ -2667,13 +2667,13 @@ TextMesh:
   m_Anchor: 4
   m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 128
+  m_FontSize: 92
   m_FontStyle: 1
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: 73b037b87212cb74397f8e1ee4813824, type: 3}
   m_Color:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4281676078
 --- !u!102 &102757224778920268
 TextMesh:
   serializedVersion: 3
