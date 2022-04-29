@@ -250,7 +250,7 @@ public class SimonSendsModule : MonoBehaviour
     }
 
 #pragma warning disable 0414
-    private readonly string TwitchHelpMessage = "!{0} press 163724 [1–8 in reading order] | !{0} press kbgcrmyw [k=black, b=blue etc.] | !{0} speed .5 [set the speed; 0–1 where 0 is fastest and 1 is slowest]";
+    private readonly string TwitchHelpMessage = "!{0} press 163724 [1–8 in reading order] | !{0} press kbgcrmyw [k=black, b=blue etc.] | !{0} speed .5 [set the speed; 0–1 where 0 is fastest and 1 is slowest] | !{0} colorblind";
 #pragma warning restore 0414
 
     private IEnumerator ProcessTwitchCommand(string command)
